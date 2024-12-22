@@ -1,0 +1,167 @@
+<section id="loan-form">
+    <div class="container">
+        <form id="loan-form">
+            <div class="form-group">
+                <label for="client-name">Nombre del Cliente:</label>
+                <input type="text" id="client-name" name="client-name" placeholder="Nombre completo" required>
+            </div>
+
+            <div class="form-group">
+                <label for="loan-amount">Monto del Préstamo:</label>
+                <input type="number" id="loan-amount" name="loan-amount" placeholder="Monto del préstamo" required>
+            </div>
+
+            <div class="form-group">
+                <label for="loan-duration">Duración del Préstamo (Meses):</label>
+                <input type="number" id="loan-duration" name="loan-duration" placeholder="Duración del préstamo en meses" required>
+            </div>
+
+            <div class="form-group">
+                <label for="interest-rate">Tasa de Interés Mensual (%):</label>
+                <input type="number" id="interest-rate" name="interest-rate" placeholder="Tasa de interés mensual" required>
+            </div>
+
+            <div class="form-group">
+                <label for="loan-period-type">Tipo de Período de Pago:</label>
+                <select id="loan-period-type" name="loan-period-type">
+                    <option value="monthly">Mensual</option>
+                    <option value="weekly">Semanal</option>
+                    <option value="custom">Personalizado</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="late-fee">Porcentaje de Mora (% semanal):</label>
+                <input type="number" id="late-fee" name="late-fee" placeholder="Porcentaje de mora" value="0" min="0" required>
+            </div>
+
+            <button type="submit">Calcular</button>
+
+            <div class="form-group">
+                <label for="mes">Seleccionar Mes:</label>
+                <select id="mes" name="mes">
+                    <option value="">-- Seleccione un mes --</option>
+                    <option value="1">Enero</option>
+                    <option value="2">Febrero</option>
+                    <option value="3">Marzo</option>
+                    <option value="4">Abril</option>
+                    <option value="5">Mayo</option>
+                    <option value="6">Junio</option>
+                    <option value="7">Julio</option>
+                    <option value="8">Agosto</option>
+                    <option value="9">Septiembre</option>
+                    <option value="10">Octubre</option>
+                    <option value="11">Noviembre</option>
+                    <option value="12">Diciembre</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="semana">Seleccionar Semana:</label>
+                <select id="semana" name="semana" disabled>
+                    <option value="">-- Seleccione una semana --</option>
+                    <option value="1">Semana 1</option>
+                    <option value="2">Semana 2</option>
+                    <option value="3">Semana 3</option>
+                    <option value="4">Semana 4</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="late-days">¿Cuántos días de atraso?</label>
+                <input type="number" id="late-days" name="late-days" placeholder="Días de atraso" min="1" disabled>
+            </div>
+
+            <button type="submit">Calcular Mora</button>
+        </form>
+
+        <div class="result-section" id="loan-results">
+            <div class="result-card">
+                <h3>Intereses Generados</h3>
+                <p id="interest-calculation">$0.00</p>
+                <div class="details">
+                    <span>Tasa de Interés: </span><span id="interest-rate-detail">0%</span>
+                </div>
+            </div>
+
+            <div class="result-card">
+                <h3>Total a Pagar Mensualmente</h3>
+                <p id="total-monthly-payment">$0.00</p>
+                <div class="details">
+                    <span>Duración: </span><span id="loan-duration-detail">0 meses</span>
+                </div>
+            </div>
+
+            <div class="result-card">
+                <h3>Morosidad (Si aplica)</h3>
+                <p id="delinquent-fees">$0.00</p>
+                <div class="details">
+                    <span>Porcentaje de Mora: </span><span id="late-fee-detail">0%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botón para generar y descargar el PDF -->
+        <section id="receipt" style="display: none;">
+            <h2>Generar Recibo</h2>
+            <div id="receipt-content" class="receipt">
+                <!-- Aquí se mostrará el recibo generado -->
+            </div>
+            <div class="receipt-actions">
+                <button id="download">Descargar como PDF</button>
+                <button id="save-image">Descargar como Imagen</button>
+                <button id="print">Imprimir Recibo</button>
+            </div>
+        </section>
+    </div>
+</section>
+
+// Convertidor de números a letras (función que me proporcionaste)
+function toWords(num) {
+    const a = ['', 'uno', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve', 'diez', 
+               'once', 'doce', 'trece', 'catorce', 'quince', 'dieciséis', 'diecisiete', 'dieciocho', 'diecinueve'];
+    const b = ['', '', 'veinte', 'treinta', 'cuarenta', 'cincuenta', 'sesenta', 'setenta', 'ochenta', 'noventa'];
+    const c = ['', 'cien', 'doscientos', 'trescientos', 'cuatrocientos', 'quinientos', 'seiscientos', 'setecientos', 'ochocientos', 'novecientos'];
+
+    function Decenas(num) {
+        if (num < 20) return a[num];
+        const decena = Math.floor(num / 10);
+        const unidad = num % 10;
+        return b[decena] + (unidad ? ' y ' + a[unidad] : '');
+    }
+
+    function Centenas(num) {
+        if (num < 100) return Decenas(num);
+        const centena = Math.floor(num / 100);
+        const resto = num % 100;
+        return c[centena] + (resto ? ' ' + Decenas(resto) : '');
+    }
+
+    function Miles(num) {
+        if (num < 1000) return Centenas(num);
+        const mil = Math.floor(num / 1000);
+        const resto = num % 1000;
+        return (mil === 1 ? 'Mil' : Centenas(mil) + ' Mil') + (resto ? ' ' + Centenas(resto) : '');
+    }
+
+    function Millones(num) {
+        if (num < 1000000) return Miles(num);
+        const millon = Math.floor(num / 1000000);
+        const resto = num % 1000000;
+        return (millon === 1 ? 'Un Millón' : Centenas(millon) + ' Millones') + (resto ? ' ' + Miles(resto) : '');
+    }
+
+    return Millones(num).charAt(0).toUpperCase() + Millones(num).slice(1);
+}
+
+// Función para mostrar los resultados
+function showReceipt() {
+    const clientName = document.getElementById('client-name').value;
+    const loanAmount = document.getElementById('loan-amount').value;
+    const loanAmountInWords = toWords(parseFloat(loanAmount)); // Convertir monto a letras
+    const loanDuration = document.getElementById('loan-duration').value;
+    const interestRate = document.getElementById('interest-rate').value;
+    const loanPeriodType = document.getElementById('loan-period-type').value;
+    const lateFee = document.getElementById('late-fee').value;
+
+    // Mostrar el recibo con los datos ingresados

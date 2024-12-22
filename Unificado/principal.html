@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- remixicon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.5.0/remixicon.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <!-- Icon -->
+    <link rel="stylesheet" href="assets/Css/Principal.css">
+    <title>Cálculos de Préstamos</title>
+    <!-- Scripts para generar recibos -->
+</head>
+
+<body>
+    <!----------HEADER--------->
+    <header class="header" id="header">
+        <div class="header__container">
+            <a href="#" class="header__logo">
+                <i class="ri-money-dollar-circle-fill"></i>
+                <span>Calculadora de Préstamos</span>
+            </a>
+            <button class="header__toggle" id="header-toggle">
+                <i class="ri-menu-fill"></i>
+            </button>
+        </div>
+    </header>
+    <!-- SIDEBAR -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar__container">
+            <div class="sidebar__user">
+                <div class="sidebar__img">
+                    <img src="#" alt="image">
+                </div>
+                <div class="sidebar__info">
+                    <h3>Rox Padon</h3>
+                    <span>roxp779@mail.com</span>
+                </div>
+            </div>
+
+            <div class="sidebar__content">
+                <div>
+                    <h3 class="sidebar__title">Gestión</h3>
+
+                    <div class="sidebar__list">
+                        <a href="" class="sidebar__link">
+                            <i class="ri-home-3-line"></i>
+                            <span>Inicia</span>
+                        </a>
+
+                        <a href="#" class="sidebar__link">
+                            <i class="ri-arrow-up-down-line"></i>
+                            <span>Recent Transactions</span>
+                        </a>
+                        <a href="#" class="sidebar__link">
+                            <i class="ri-wallet-3-line"></i>
+                            <span>Mi Cartera</span>
+                        </a>
+
+                        <a href="#" class="sidebar__link">
+                            <i class="ri-calculator-line"></i>
+                            <span>Calculadora</span>
+                        </a>
+
+                        <a href="#" class="sidebar__link">
+                            <i class="ri-user-search-fill"></i>
+                            <span>Users</span>
+                        </a>
+
+                        <a href="#" class="sidebar__link">
+                            <i class="ri-mail-ai-line"></i>
+                            <span>Messages</span>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="sidebar__title">Controles</h3>
+                <div class="sidebar__list">
+                    <a href="#" class="sidebar__link">
+                        <i class="ri-settings-5-line"></i>
+                        <span>Settings</span>
+                    </a>
+                    <a href="#" class="sidebar__link">
+                        <i class="ri-p2p-line"></i>
+                        <span>Historial</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="sidebar__actions">
+                <button>
+                    <i class="ri-sun-fill sidebar__link sidebar__theme" id="theme-button">
+                        <span>Theme</span>
+                    </i>
+                </button>
+
+                <button class="sidebar__link">
+                    <i class="ri-logout-box-line"></i>
+                    <span>Log Out</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <section id="loan-form">
+            <div class="container">
+                <form id="loan-form">
+                    <div class="form-group">
+                        <label for="clientname">Nombre del Cliente:</label>
+                        <input type="text" id="client-name" name="client-name" placeholder="Nombre completo" required>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="loan-amount">Monto del Préstamo:</label>
+                        <input type="number" id="loan-amount" name="loan-amount" placeholder="Monto del préstamo" required>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="loan-duration">Duración del Préstamo (Meses):</label>
+                        <input type="number" id="loan-duration" name="loan-duration"
+                            placeholder="Duración del préstamo en meses" required>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="interest-rate">Tasa de Interés Mensual (%):</label>
+                        <input type="number" id="interest-rate" name="interest-rate" placeholder="Tasa de interés mensual"
+                            required>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="loan-period-type">Tipo de Período de Pago:</label>
+                        <select id="loan-period-type" name="loan-period-type">
+                            <option value="monthly">Mensual</option>
+                            <option value="weekly">Semanal</option>
+                            <option value="custom">Personalizado</option>
+                        </select>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="late-fee">Porcentaje de Mora (% semanal):</label>
+                        <input type="number" id="late-fee" name="late-fee" placeholder="Porcentaje de mora" value="0"
+                            min="0" required>
+                    </div>
+                    <button type="submit"><i class="fas fa-calculator"></i> Calcular</button>
+                    <div class="form-group">
+                        <label for="mes">Seleccionar Mes:</label>
+                        <select id="mes" name="mes">
+                            <option value="">-- Seleccione un mes --</option>
+                            <option value="1">Enero</option>
+                            <option value="2">Febrero</option>
+                            <option value="3">Marzo</option>
+                            <option value="4">Abril</option>
+                            <option value="5">Mayo</option>
+                            <option value="6">Junio</option>
+                            <option value="7">Julio</option>
+                            <option value="8">Agosto</option>
+                            <option value="9">Septiembre</option>
+                            <option value="10">Octubre</option>
+                            <option value="11">Noviembre</option>
+                            <option value="12">Diciembre</option>
+                        </select>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="semana">Seleccionar Semana:</label>
+                        <select id="semana" name="semana" disabled>
+                            <option value="">-- Seleccione una semana --</option>
+                            <option value="1">Semana 1</option>
+                            <option value="2">Semana 2</option>
+                            <option value="3">Semana 3</option>
+                            <option value="4">Semana 4</option>
+                        </select>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="late-days">¿Cuántos días de atraso?</label>
+                        <input type="number" id="late-days" name="late-days" placeholder="Días de atraso" min="1" disabled>
+                    </div>
+                    <button type="submit"><i class="fas fa-calculator"></i>Calcular Mora</button>
+                </form>
+    
+                <div class="result-section" id="loan-results">
+                    <div class="result-card">
+                        <h3>Intereses Generados</h3>
+                        <p id="interest-calculation">$0.00</p>
+                        <div class="details">
+                            <span>Tasa de Interés: </span><span id="interest-rate-detail">0%</span>
+                        </div>
+                    </div>
+    
+                    <div class="result-card">
+                        <h3>Total a Pagar Mensualmente</h3>
+                        <p id="total-monthly-payment">$0.00</p>
+                        <div class="details">
+                            <span>Duración: </span><span id="loan-duration-detail">0 meses</span>
+                        </div>
+                    </div>
+    
+                    <div class="result-card">
+                        <h3>Morosidad (Si aplica)</h3>
+                        <p id="delinquent-fees">$0.00</p>
+                        <div class="details">
+                            <span>Porcentaje de Mora: </span><span id="late-fee-detail">0%</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Botón para generar y descargar el PDF -->
+                <section id="receipt style="display: none;">
+                    <h2>Generar Recibo</h2>
+                    <div id="receipt-content" class="receipt">
+                        <!-- Aquí se mostrará el recibo generado -->
+                    </div>
+                    <div class="receipt-actions">
+                        <button id="download">Descargar como PDF</button>
+                    </div>
+                </section>
+            </div>
+    </section>
+    <script src="assets/Js/Principal_full_refactored.js"></script>
+</body>
+</html>
